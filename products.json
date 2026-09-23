@@ -1,0 +1,62 @@
+[
+  {
+    "id": 101,
+    "name": "Gula Pasir Curah / Manis",
+    "category": "Sembako",
+    "price": 17000,
+    "wholesaleMin": 50,
+    "wholesalePrice": 800000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "kg",
+    "desc": "Bisa beli ecer (0.5 kg) atau karungan 50kg.",
+    "icon": "🌾",
+    "image": "",
+    "color": "bg-amber-100 text-amber-800"
+  },
+  {
+    "id": 1,
+    "name": "Roti Aoka",
+    "category": "Makanan Ringan",
+    "price": 2000,
+    "wholesaleMin": 60,
+    "wholesalePrice": 108000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Pcs",
+    "desc": "Roti panggang empuk. rasa ada 6.",
+    "icon": "🍞",
+    "image": "",
+    "color": "bg-amber-100 text-amber-800"
+  },
+  {
+    "id": 3,
+    "name": "Air Mineral Le Minerale 600ml",
+    "category": "Minuman",
+    "price": 2500,
+    "wholesaleMin": 24,
+    "wholesalePrice": 58000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Botol",
+    "desc": "Bisa ecer botolan atau 1 Dus isi 24 botol.",
+    "icon": "💧",
+    "image": "",
+    "color": "bg-sky-100 text-sky-800"
+  },
+  {
+    "id": 4,
+    "name": "Air Mineral Le Minerale 600ml",
+    "category": "Minuman",
+    "price": 2500,
+    "wholesaleMin": 24,
+    "wholesalePrice": 58000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Botol",
+    "desc": "Bisa ecer botolan atau 1 Dus isi 24 botol.",
+    "icon": "💧",
+    "image": "",
+    "color": "bg-sky-100 text-sky-800"
+  }
+]
