@@ -51,12 +51,12 @@
             <div class="flex items-center justify-between gap-4">
                 
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
-                    <div class="w-10 h-10 bg-gradient-to-tr from-brand-700 to-brand-500 rounded-xl flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-[#15803d] to-[#22c55e] rounded-xl flex items-center justify-center text-white shadow-md shadow-[#22c55e]/20">
                         <i class="fa-solid fa-store text-lg"></i>
                     </div>
                     <div>
                         <h1 class="font-bold text-base sm:text-lg leading-none text-slate-900 tracking-tight">TOKO ESTI</h1>
-                        <p class="text-[11px] text-brand-700 font-medium mt-0.5 flex items-center gap-1">
+                        <p class="text-[11px] text-[#15803d] font-medium mt-0.5 flex items-center gap-1">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Buka & Ready Kirim WhatsApp
                         </p>
                     </div>
@@ -67,10 +67,10 @@
                         <i class="fa-solid fa-pen-to-square text-slate-600"></i> Cara Edit Produk
                     </button>
 
-                    <button onclick="toggleCartDrawer()" class="relative px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl flex items-center gap-2 transition shadow-md shadow-brand-600/20">
+                    <button onclick="toggleCartDrawer()" class="relative px-4 py-2 bg-[#16a34a] hover:bg-[#15803d] text-black font-bold rounded-xl flex items-center gap-2 transition shadow-md shadow-[#16a34a]/20">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>Keranjang</span>
-                        <span id="cartBadgeCount" class="bg-amber-400 text-slate-900 text-xs font-black px-2 py-0.5 rounded-full ml-1 min-w-[20px] text-center">0</span>
+                        <span id="cartBadgeCount" class="bg-amber-400 text-slate-900 text-xs font-blue px-2 py-0.5 rounded-full ml-1 min-w-[20px] text-center">0</span>
                     </button>
                 </div>
 
@@ -78,7 +78,7 @@
                     <button onclick="openGuideModal()" class="p-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm" title="Cara Edit Produk">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
-                    <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-brand-600 text-white rounded-xl text-sm flex items-center justify-center">
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-[#16a34a] text-white rounded-xl text-sm flex items-center justify-center">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span id="cartBadgeCountMobile" class="absolute -top-1 -right-1 bg-amber-400 text-slate-900 text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
                     </button>
@@ -89,11 +89,11 @@
     </header>
 
     <!-- Hero / Search & Banner Area -->
-    <section class="bg-gradient-to-b from-brand-50 to-fuchsia-50/20 border-b border-emerald-100/60 py-6 px-4">
+    <section class="bg-gradient-to-b from-[#f0fdf4] to-fuchsia-50/20 border-b border-emerald-100/60 py-6 px-4">
         <div class="max-w-7xl mx-auto">
             
             <div class="max-w-3xl mx-auto text-center mb-6">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-brand-800 mb-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-[#166534] mb-2">
                     <i class="fa-solid fa-tags text-amber-600"></i> Katalog Digital Toko ESTI
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Harga Terjangkau</h2>
@@ -104,7 +104,7 @@
                 <div class="relative flex items-center">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 text-slate-400 text-base"></i>
                     <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari barang atau merk " 
-                           class="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition shadow-inner">
+                           class="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition shadow-inner">
                     <button id="clearSearchBtn" onclick="clearSearch()" class="absolute right-3 text-slate-400 hover:text-slate-600 p-1 hidden">
                         <i class="fa-solid fa-xmark text-base"></i>
                     </button>
@@ -113,7 +113,7 @@
 
             <!-- Category Tabs -->
             <div class="max-w-5xl mx-auto mt-6 flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 px-1">
-                <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-brand-600 bg-brand-600 text-white shadow-sm">
+                <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-[#16a34a] bg-[#16a34a] text-white shadow-sm">
                     ✨ Semua Produk
                 </button>
                 <button onclick="setCategory('Sembako')" data-cat="Sembako" class="cat-tab px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border border-slate-200 bg-white hover:bg-slate-100 text-slate-700">
@@ -143,13 +143,13 @@
             <div>
                 <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
                     <span id="activeCategoryTitle">Semua Produk</span>
-                    <span id="productCountBadge" class="bg-emerald-100 text-brand-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 Barang</span>
+                    <span id="productCountBadge" class="bg-emerald-100 text-[#166534] text-xs px-2.5 py-0.5 rounded-full font-bold">0 Barang</span>
                 </h3>
             </div>
             
             <div class="flex items-center gap-2 text-xs text-slate-500">
                 <label for="sortSelect" class="hidden sm:inline font-medium">Urutkan:</label>
-                <select id="sortSelect" onchange="handleSort()" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <select id="sortSelect" onchange="handleSort()" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#22c55e]">
                     <option value="default">Default</option>
                     <option value="price-low">Harga: Terendah</option>
                     <option value="price-high">Harga: Tertinggi</option>
@@ -168,7 +168,7 @@
             </div>
             <h4 class="font-bold text-slate-800 text-lg mb-1">Produk Tidak Ditemukan</h4>
             <p class="text-xs text-slate-500 mb-4">Maaf, kami tidak dapat menemukan produk yang sesuai dengan pencarian Anda.</p>
-            <button onclick="resetFilters()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow transition">
+            <button onclick="resetFilters()" class="px-4 py-2 bg-[#16a34a] hover:bg-[#15803d] text-white rounded-xl text-xs font-semibold shadow transition">
                 Tampilkan Semua Produk
             </button>
         </div>
@@ -182,9 +182,9 @@
         <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
             <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
                 
-                <div class="bg-brand-900 text-white p-4 flex items-center justify-between">
+                <div class="bg-[#14532d] text-white p-4 flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-cart-shopping text-brand-500 text-lg"></i>
+                        <i class="fa-solid fa-cart-shopping text-[#22c55e] text-lg"></i>
                         <h3 class="font-bold text-base">Keranjang Belanja</h3>
                     </div>
                     <button onclick="toggleCartDrawer()" class="text-slate-300 hover:text-white p-1">
@@ -204,13 +204,13 @@
                         </div>
                         <div class="flex justify-between text-sm font-bold text-slate-900 pt-1 border-t border-slate-200">
                             <span>Total Estimasi:</span>
-                            <span id="cartTotalPrice" class="text-brand-700 font-mono text-base">Rp 0</span>
+                            <span id="cartTotalPrice" class="text-[#15803d] font-mono text-base">Rp 0</span>
                         </div>
                     </div>
 
                     <div class="space-y-2 pt-2 border-t border-slate-200">
-                        <input type="text" id="custName" placeholder="Nama Anda (contoh: Bu Ratna)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none">
-                        <textarea id="custNote" rows="2" placeholder="Catatan Tambahan / Alamat Pengiriman" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none resize-none"></textarea>
+                        <input type="text" id="custName" placeholder="Nama Anda (contoh: Bu Ratna)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#22c55e] outline-none">
+                        <textarea id="custNote" rows="2" placeholder="Catatan Tambahan / Alamat Pengiriman" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#22c55e] outline-none resize-none"></textarea>
                     </div>
 
                     <button onclick="sendWhatsAppOrder()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition">
@@ -396,18 +396,18 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <span class="text-[10px] text-slate-400 block font-medium">Harga Ecer / ${p.unit || 'Pcs'}</span>
-                                <span class="font-extrabold text-slate-900 text-xs sm:text-sm font-mono text-brand-700">${formatRupiah(p.price)}</span>
+                                <span class="font-extrabold text-slate-900 text-xs sm:text-sm font-mono text-[#15803d]">${formatRupiah(p.price)}</span>
                             </div>
                             <span class="text-[10px] text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">Bisa Setengah / 0.5</span>
                         </div>
 
                         <div class="grid grid-cols-2 gap-1.5 pt-1">
                             <button onclick="addToCart(${p.id}, 0.5)" ${isOutOfStock ? 'disabled' : ''} 
-                                    class="py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
+                                    class="py-1.5 bg-amber-500 hover:bg-amber-600 text-black text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
                                 +½ (${p.unit})
                             </button>
                             <button onclick="addToCart(${p.id}, 1)" ${isOutOfStock ? 'disabled' : ''} 
-                                    class="py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition shadow-sm ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
+                                    class="py-1.5 bg-[#16a34a] hover:bg-[#15803d] text-black text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition shadow-sm ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
                                 +1 ${p.unit}
                             </button>
                         </div>
@@ -428,7 +428,7 @@
             currentCategory = cat;
             document.querySelectorAll('.cat-tab').forEach(btn => {
                 if (btn.dataset.cat === cat) {
-                    btn.className = "cat-tab px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-brand-600 bg-brand-600 text-white shadow-sm";
+                    btn.className = "cat-tab px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-[#16a34a] bg-[#16a34a] text-white shadow-sm";
                 } else {
                     btn.className = "cat-tab px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border border-slate-200 bg-white hover:bg-slate-100 text-slate-700";
                 }
@@ -553,7 +553,7 @@
                             <div class="min-w-0">
                                 <h5 class="font-bold text-xs text-slate-800 truncate">${p.name}</h5>
                                 <div class="flex items-center gap-1.5 mt-0.5">
-                                    <span class="text-[11px] font-mono text-brand-700 font-bold">${formatRupiah(subtotal)}</span>
+                                    <span class="text-[11px] font-mono text-[#15803d] font-bold">${formatRupiah(subtotal)}</span>
                                     ${isWholesaleApplied ? '<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.2 rounded">HARGA DUS/GROSIR</span>' : ''}
                                 </div>
                             </div>
