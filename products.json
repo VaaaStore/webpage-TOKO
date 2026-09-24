@@ -58,5 +58,20 @@
     "icon": "💧",
     "image": "images/Indomie.jpg",
     "color": "bg-sky-100 text-sky-800"
+  },
+  {
+    "id": 5,
+    "name": "Kopi Kapal Api",
+    "category": "Minuman",
+    "price": 4500,
+    "wholesaleMin": 1,
+    "wholesalePrice": 4500,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Botol",
+    "desc": "Harga produsen 4.500",
+    "icon": "🌾",
+    "image": "images/Kapal-api.jpg",
+    "color": "bg-amber-100 text-amber-800"
   }
 ]
