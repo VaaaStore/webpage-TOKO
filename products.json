@@ -43,5 +43,20 @@
     "icon": "💧",
     "image": "images/Guribee.jpg",
     "color": "bg-sky-100 text-sky-800"
+  },
+  {
+    "id": 4,
+    "name": "Indomie",
+    "category": "Sembako",
+    "price": 9000,
+    "wholesaleMin": 1,
+    "wholesalePrice": 9000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Pcs",
+    "desc": "Indomie.",
+    "icon": "💧",
+    "image": "images/Indomie.jpg",
+    "color": "bg-sky-100 text-sky-800"
   }
 ]
