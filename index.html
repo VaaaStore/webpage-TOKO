@@ -271,22 +271,44 @@
     <script>
         const STORE_PHONE_WA = "6282137073004";
 
-        let products = [];
-        let filteredProducts = [];
+        // Variabel Data & Infinite Scroll
+        let rawProducts = [];        // Data asli dari products.json
+        let shuffledProducts = [];   // Data setelah diacak
+        let filteredProducts = [];   // Data setelah difilter pencarian/kategori
         let cart = []; 
         let currentCategory = 'ALL';
 
+        // Konfigurasi Infinite Scroll
+        let currentPage = 1;
+        const itemsPerPage = 12;     // Jumlah produk per batch muatan
+        let observer = null;
+
+        // Algoritma Fisher-Yates untuk Mengacak Produk
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         async function initStore() {
             try {
-                // Mengambil data dari products.json secara cepat & asinkron
+                // Mengambil data dari file products.json
                 const response = await fetch('./products.json');
                 if (!response.ok) {
                     throw new Error('Gagal mengambil file products.json');
                 }
-                products = await response.json();
+                rawProducts = await response.json();
+                
+                // Acak produk saat web pertama kali dibuka
+                shuffledProducts = shuffleArray(rawProducts);
+
             } catch (error) {
                 console.error("Error loading products:", error);
-                products = [];
+                rawProducts = [];
+                shuffledProducts = [];
             }
 
             const savedCart = localStorage.getItem('tokoberkah_cart');
@@ -296,6 +318,7 @@
 
             filterAndRenderProducts();
             updateCartUI();
+            setupInfiniteScrollObserver();
         }
 
         function saveCartToStorage() {
@@ -306,11 +329,15 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
         }
 
+        // Filter Kategori, Pencarian, & Pengurutan
         function filterAndRenderProducts() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const sortVal = document.getElementById('sortSelect').value;
 
-            filteredProducts = products.filter(p => {
+            // Gunakan shuffledProducts jika urutan default
+            let baseList = (sortVal === 'default') ? shuffledProducts : [...rawProducts];
+
+            filteredProducts = baseList.filter(p => {
                 const matchCat = (currentCategory === 'ALL') || (p.category === currentCategory);
                 const matchSearch = p.name.toLowerCase().includes(query) || (p.desc && p.desc.toLowerCase().includes(query));
                 return matchCat && matchSearch;
@@ -324,49 +351,58 @@
                 filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
             }
 
-            renderGrid();
+            // Reset ke halaman 1 saat filter diubah
+            currentPage = 1;
+            const container = document.getElementById('productGrid');
+            container.innerHTML = '';
+            
+            renderNextBatch();
         }
 
-        function renderGrid() {
+        // Memuat Batch Produk (Infinite Scroll)
+        function renderNextBatch() {
             const container = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
             const countBadge = document.getElementById('productCountBadge');
 
-            container.innerHTML = '';
             countBadge.textContent = `${filteredProducts.length} Barang`;
 
             if (filteredProducts.length === 0) {
                 container.classList.add('hidden');
                 emptyState.classList.remove('hidden');
+                removeSentinel();
                 return;
             }
 
             container.classList.remove('hidden');
             emptyState.classList.add('hidden');
 
-            filteredProducts.forEach(p => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const batch = filteredProducts.slice(start, end);
+
+            batch.forEach(p => {
                 const card = document.createElement('div');
                 card.className = "bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between overflow-hidden relative group";
 
                 const isOutOfStock = p.stock === 'Habis';
                 const hasWholesale = p.wholesaleMin && p.wholesalePrice && p.wholesaleMin > 1;
 
-                // Tampilan Gambar vs Emoji Icon
                 let mediaDisplay = `<div class="w-full h-24 sm:h-28 rounded-xl ${p.color || 'bg-slate-100 text-slate-700'} flex items-center justify-center text-4xl sm:text-5xl my-2 shadow-inner group-hover:scale-105 transition-transform">${p.icon || '📦'}</div>`;
                 
                 if (p.image && p.image.trim() !== "") {
                     mediaDisplay = `<div class="w-full h-24 sm:h-28 rounded-xl bg-slate-100 overflow-hidden my-2 border border-slate-100 flex items-center justify-center">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onError="this.onerror=null;this.src='https://placehold.co/150x150/e2e8f0/64748b?text=No+Foto';">
+                        <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onError="this.onerror=null;this.src='https://placehold.co/150x150/e2e8f0/64748b?text=No+Foto';">
                     </div>`;
                 }
 
                 card.innerHTML = `
-                    <div class="p-4 flex-1 flex flex-col">
-                        <div class="flex items-center justify-between gap-1 mb-2">
-                            <span class="text-[10px] font-bold uppercase tracking-wide text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                    <div class="p-3 sm:p-4 flex-1 flex flex-col">
+                        <div class="flex items-center justify-between gap-1 mb-1.5">
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wide text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md truncate max-w-[100px]">
                                 ${p.category}
                             </span>
-                            ${p.isPromo ? '<span class="text-[10px] font-black uppercase text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">PROMO</span>' : ''}
+                            ${p.isPromo ? '<span class="text-[9px] sm:text-[10px] font-black uppercase text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-md border border-rose-200">PROMO</span>' : ''}
                         </div>
 
                         ${mediaDisplay}
@@ -374,17 +410,17 @@
                         <h4 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 mt-1 leading-snug">
                             ${p.name}
                         </h4>
-                        <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal flex-1">
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal flex-1">
                             ${p.desc || ''}
                         </p>
 
                         ${hasWholesale ? `
-                            <div class="mt-2 bg-amber-50 border border-amber-200 rounded-lg p-1.5 text-[10px] text-amber-900 font-medium">
-                                <i class="fa-solid fa-box text-amber-600"></i> Opsi 1 Dus/Karton (${p.wholesaleMin}${p.unit}): <span class="font-bold text-amber-800">${formatRupiah(p.wholesalePrice)}</span>
+                            <div class="mt-2 bg-amber-50 border border-amber-200 rounded-lg p-1.5 text-[9px] sm:text-[10px] text-amber-900 font-medium">
+                                <i class="fa-solid fa-box text-amber-600"></i> Opsi Grosir (${p.wholesaleMin}${p.unit}): <span class="font-bold text-amber-800">${formatRupiah(p.wholesalePrice)}</span>
                             </div>
                         ` : ''}
 
-                        <div class="mt-3 flex items-center justify-between text-[11px]">
+                        <div class="mt-2 sm:mt-3 flex items-center justify-between text-[10px] sm:text-[11px]">
                             <span class="text-slate-400 font-medium">Satuan: ${p.unit || 'Ecer'}</span>
                             <span class="font-semibold ${isOutOfStock ? 'text-rose-600 bg-rose-50' : 'text-emerald-700 bg-emerald-50'} px-1.5 py-0.5 rounded">
                                 ${p.stock}
@@ -392,28 +428,28 @@
                         </div>
                     </div>
 
-                    <div class="px-3 py-3 bg-slate-50 border-t border-slate-100 flex flex-col gap-2">
+                    <div class="px-2.5 sm:px-3 py-2.5 sm:py-3 bg-slate-50 border-t border-slate-100 flex flex-col gap-2">
                         <div class="flex items-center justify-between">
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-medium">Harga Ecer / ${p.unit || 'Pcs'}</span>
+                                <span class="text-[9px] sm:text-[10px] text-slate-400 block font-medium">Harga Ecer / ${p.unit || 'Pcs'}</span>
                                 <span class="font-extrabold text-slate-900 text-xs sm:text-sm font-mono text-[#15803d]">${formatRupiah(p.price)}</span>
                             </div>
-                            <span class="text-[10px] text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">Bisa Setengah / 0.5</span>
+                            <span class="text-[9px] sm:text-[10px] text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">Bisa Setengah / 0.5</span>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-1.5 pt-1">
+                        <div class="grid grid-cols-2 gap-1 pt-1">
                             <button onclick="addToCart(${p.id}, 0.5)" ${isOutOfStock ? 'disabled' : ''} 
-                                    class="py-1.5 bg-amber-500 hover:bg-amber-600 text-black text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
+                                    class="py-1.5 bg-amber-500 hover:bg-amber-600 text-black text-[10px] sm:text-[11px] font-bold rounded-xl flex items-center justify-center gap-0.5 transition ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
                                 +½ (${p.unit})
                             </button>
                             <button onclick="addToCart(${p.id}, 1)" ${isOutOfStock ? 'disabled' : ''} 
-                                    class="py-1.5 bg-[#16a34a] hover:bg-[#15803d] text-black text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition shadow-sm ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
+                                    class="py-1.5 bg-[#16a34a] hover:bg-[#15803d] text-black text-[10px] sm:text-[11px] font-bold rounded-xl flex items-center justify-center gap-0.5 transition shadow-sm ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}">
                                 +1 ${p.unit}
                             </button>
                         </div>
                         ${hasWholesale ? `
                             <button onclick="addToCart(${p.id}, ${p.wholesaleMin})" ${isOutOfStock ? 'disabled' : ''} 
-                                    class="w-full py-1 bg-slate-800 hover:bg-slate-900 text-amber-300 text-[10px] font-bold rounded-lg flex items-center justify-center gap-1 transition">
+                                    class="w-full py-1 bg-slate-800 hover:bg-slate-900 text-amber-300 text-[9px] sm:text-[10px] font-bold rounded-lg flex items-center justify-center gap-1 transition">
                                 <i class="fa-solid fa-boxes-packing text-amber-400"></i> +1 Dus Full (${p.wholesaleMin}${p.unit})
                             </button>
                         ` : ''}
@@ -422,6 +458,44 @@
 
                 container.appendChild(card);
             });
+
+            if (end < filteredProducts.length) {
+                currentPage++;
+                createSentinel();
+            } else {
+                removeSentinel();
+            }
+        }
+
+        // Pendeteksi Scroll ke Bawah Halaman
+        function setupInfiniteScrollObserver() {
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        renderNextBatch();
+                    }
+                });
+            }, { rootMargin: '200px' });
+        }
+
+        function createSentinel() {
+            removeSentinel();
+            const main = document.querySelector('main');
+            const sentinel = document.createElement('div');
+            sentinel.id = 'scrollSentinel';
+            sentinel.className = 'w-full py-6 text-center text-slate-400 text-xs font-medium flex items-center justify-center gap-2';
+            sentinel.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-emerald-600 text-base"></i> Memuat produk lainnya...`;
+            main.appendChild(sentinel);
+
+            if (observer) observer.observe(sentinel);
+        }
+
+        function removeSentinel() {
+            const sentinel = document.getElementById('scrollSentinel');
+            if (sentinel) {
+                if (observer) observer.unobserve(sentinel);
+                sentinel.remove();
+            }
         }
 
         function setCategory(cat) {
@@ -454,15 +528,17 @@
         }
 
         function handleSort() { filterAndRenderProducts(); }
+        
         function resetFilters() {
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('sortSelect').value = 'default';
             setCategory('ALL');
         }
 
         // KERANJANG BELANJA WITH DECIMAL / FRACTION SUPPORT
         function addToCart(productId, amount = 1) {
-            const product = products.find(p => p.id === productId);
+            const product = rawProducts.find(p => p.id === productId);
             if (!product || product.stock === 'Habis') return;
 
             const existing = cart.find(item => item.product.id === productId);
@@ -627,7 +703,7 @@
         }
 
         function openGuideModal() { document.getElementById('guideModal').classList.remove('hidden'); }
-        function closeGuideModal() { document.getElementById('guideModal').classList.add('hidden'); }
+        function closeGuideModal() { document.getElementById('guideModal').classList.close ? document.getElementById('guideModal').classList.close() : document.getElementById('guideModal').classList.add('hidden'); }
 
         function showToast(msg) {
             const toast = document.createElement('div');
