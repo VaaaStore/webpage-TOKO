@@ -88,5 +88,35 @@
     "icon": "📦",
     "image": "images/Nipis-madu.jpg",
     "color": "bg-slate-100 text-slate-700"
+  },
+  {
+    "id": 7,
+    "name": "Wipol",
+    "category": "Kebersihan",
+    "price": 10000,
+    "wholesaleMin": 5,
+    "wholesalePrice": 47500,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Pcs",
+    "desc": "Untuk lantai",
+    "icon": "📦",
+    "image": "images/Wipol.jpg",
+    "color": "bg-slate-100 text-slate-700"
+  },
+  {
+    "id": 8,
+    "name": "Pepsodent",
+    "category": "Kebersihan",
+    "price": 2500,
+    "wholesaleMin": 10,
+    "wholesalePrice": 23000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Pcs",
+    "desc": "Pasta gigi",
+    "icon": "📦",
+    "image": "images/Pepsodent.jpg",
+    "color": "bg-slate-100 text-slate-700"
   }
 ]
