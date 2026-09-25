@@ -73,5 +73,20 @@
     "icon": "🌾",
     "image": "images/Kapal-api.jpg",
     "color": "bg-amber-100 text-amber-800"
+  },
+  {
+    "id": 6,
+    "name": "Nipis madu",
+    "category": "Minuman",
+    "price": 5000,
+    "wholesaleMin": 12,
+    "wholesalePrice": 54000,
+    "stock": "Tersedia",
+    "isPromo": false,
+    "unit": "Botol",
+    "desc": "Nipis madu",
+    "icon": "📦",
+    "image": "",
+    "color": "bg-slate-100 text-slate-700"
   }
 ]
