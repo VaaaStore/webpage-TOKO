@@ -71,12 +71,6 @@
             border-radius: 0.5rem;
         }
 
-        /* Gradient brand text */
-        .text-gradient {
-            background: linear-gradient(135deg, #15803d, #22c55e);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-
         /* Card hover lift */
         .product-card { transition: box-shadow 0.2s ease, transform 0.2s ease; }
         .product-card:hover { box-shadow: 0 10px 28px -4px rgba(0,0,0,0.12); transform: translateY(-2px); }
@@ -96,7 +90,7 @@
                 <!-- Brand -->
                 <div class="flex items-center gap-3 cursor-pointer group" onclick="resetFilters()">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-md shadow-emerald-500/30 flex-shrink-0 group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-store text-white text-sm"></i>
+                        <i class="fa-solid fa-store text-black text-sm"></i>
                     </div>
                     <div>
                         <h1 class="font-black text-sm sm:text-base leading-none text-slate-900 tracking-tight">TOKO ESTI</h1>
@@ -143,10 +137,6 @@
 
     <!-- Hero / Search & Banner Area -->
     <section class="relative bg-gradient-to-b from-emerald-50 via-white to-slate-50 border-b border-emerald-100/60 pt-8 pb-5 px-4 overflow-hidden">
-        <!-- Decorative blobs -->
-        <div class="absolute -top-12 -right-12 w-56 h-56 bg-emerald-100 rounded-full opacity-40 blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-8 -left-8 w-44 h-44 bg-amber-100 rounded-full opacity-30 blur-3xl pointer-events-none"></div>
-
         <div class="max-w-7xl mx-auto relative">
 
             <!-- Title -->
@@ -155,7 +145,7 @@
                     <i class="fa-solid fa-tags text-amber-500"></i> Katalog Digital Toko ESTI
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                    Sembako Sampai Jajanan, Tinggal Chat WhatsApp
+                    Semua Pesanan Via Whatsapp
                 </h2>
                 <p class="text-xs sm:text-sm text-slate-500 mt-2 font-medium">Beli Ecer atau Grosir · Diantar dari Toko Sekitar Rumah</p>
             </div>
@@ -248,14 +238,19 @@
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3 hidden sm:block"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3 hidden lg:block"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3 hidden sm:block"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden p-3 hidden lg:block"><div class="skeleton h-3 w-1/2 mb-3"></div><div class="skeleton h-28 w-full mb-3 rounded-xl"></div><div class="skeleton h-3 w-full mb-2"></div><div class="skeleton h-3 w-3/4 mb-4"></div><div class="skeleton h-8 w-full rounded-xl"></div></div>
             </div>
         </div>
 
+        <!-- Area Tombol Load More Manual -->
+        <div id="loadMoreContainer" class="mt-8 text-center hidden">
+            <p id="showingProductCounter" class="text-xs text-slate-500 mb-3 font-medium">Menampilkan 0 dari 0 produk</p>
+            <button id="loadMoreBtn" onclick="loadMoreProducts()" 
+                    class="px-6 py-3 bg-white hover:bg-slate-50 text-emerald-700 font-bold text-xs rounded-2xl border-2 border-emerald-600 shadow-sm transition active:scale-95 inline-flex items-center gap-2">
+                <i class="fa-solid fa-boxes-packing"></i> Tampilkan Produk Lainnya
+            </button>
+        </div>
+
+        <!-- Empty State -->
         <div id="emptyState" class="hidden">
             <div class="text-center py-16 bg-white rounded-2xl border border-slate-200 max-w-sm mx-auto my-8 px-8 shadow-sm">
                 <div class="w-16 h-16 mx-auto bg-amber-50 border border-amber-200 rounded-full flex items-center justify-center text-amber-500 text-2xl mb-4">
@@ -283,13 +278,13 @@
                         </div>
                         <span class="font-black text-white text-sm tracking-tight">TOKO ESTI</span>
                     </div>
-                    <p class="text-xs leading-relaxed">Toko kebutuhan sehari-hari dengan harga terjangkau. Belanja mudah, langsung pesan via WhatsApp.</p>
+                    <p class="text-xs leading-relaxed">Toko ESTI beli banyak lebih murah</p>
                 </div>
                 <div>
                     <h5 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Informasi</h5>
                     <ul class="space-y-2 text-xs">
                         <li class="flex items-center gap-2"><i class="fa-solid fa-clock text-emerald-500 w-3"></i> Buka setiap hari</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-emerald-500 w-3"></i> Siap kirim via kurir / ambil langsung</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-emerald-500 w-3"></i> Pesanan Siap antar ke lokasi</li>
                         <li class="flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-emerald-500 w-3"></i> Tersedia harga grosir & satuan</li>
                     </ul>
                 </div>
@@ -299,11 +294,10 @@
                        class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-md">
                         <i class="fa-brands fa-whatsapp text-base"></i> Chat WhatsApp
                     </a>
-                    <p class="mt-3 text-[11px]">+62 821-3707-3004</p>
                 </div>
             </div>
             <div class="border-t border-slate-800 pt-4 text-center text-[11px] text-slate-600">
-                © 2025 Toko ESTI · Katalog Digital · Dibuat dengan ❤️
+                © 2025 Toko ESTI · Katalog Digital · Dibuat oleh VaaaStore
             </div>
         </div>
     </footer>
@@ -338,7 +332,6 @@
 
                 <!-- Footer / Checkout -->
                 <div class="flex-shrink-0 border-t border-slate-200 bg-slate-50 p-4 space-y-3">
-                    <!-- Totals -->
                     <div class="bg-white rounded-xl border border-slate-200 p-3 space-y-1.5">
                         <div class="flex justify-between text-xs text-slate-500">
                             <span>Total Jenis Produk</span>
@@ -350,7 +343,6 @@
                         </div>
                     </div>
 
-                    <!-- Customer info -->
                     <div class="space-y-2">
                         <input type="text" id="custName" placeholder="Nama Anda (contoh: Bu Ratna)"
                                class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-400 focus:border-transparent outline-none bg-white transition placeholder-slate-400">
@@ -371,16 +363,14 @@
     <script>
         const STORE_PHONE_WA = "6282137073004";
 
-        // Variabel Data & Infinite Scroll
-        let rawProducts    = [];
+        let rawProducts      = [];
         let shuffledProducts = [];
         let filteredProducts = [];
-        let cart = [];
-        let currentCategory = 'ALL';
+        let cart             = [];
+        let currentCategory  = 'ALL';
 
-        let currentPage = 1;
-        const itemsPerPage = 12;
-        let observer = null;
+        let visibleCount     = 12; // Jumlah produk per muatan
+        const itemsPerPage   = 12;
 
         function shuffleArray(array) {
             let shuffled = [...array];
@@ -416,7 +406,6 @@
 
             filterAndRenderProducts();
             updateCartUI();
-            setupInfiniteScrollObserver();
         }
 
         function saveCartToStorage() {
@@ -443,39 +432,37 @@
             else if (sortVal === 'price-high') filteredProducts.sort((a, b) => b.price - a.price);
             else if (sortVal === 'name')       filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
 
-            currentPage = 1;
-            document.getElementById('productGrid').innerHTML = '';
-            renderNextBatch();
+            visibleCount = itemsPerPage; // Reset muatan awal ke 12 produk
+            renderProducts();
         }
 
-        // Memuat Batch Produk (Infinite Scroll)
-        function renderNextBatch() {
+        function renderProducts() {
             const container  = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
             const countBadge = document.getElementById('productCountBadge');
+            const loadMoreBox= document.getElementById('loadMoreContainer');
+            const counterEl  = document.getElementById('showingProductCounter');
 
             countBadge.textContent = `${filteredProducts.length} Barang`;
+            container.innerHTML = '';
 
             if (filteredProducts.length === 0) {
                 container.classList.add('hidden');
                 emptyState.classList.remove('hidden');
-                removeSentinel();
+                loadMoreBox.classList.add('hidden');
                 return;
             }
 
             container.classList.remove('hidden');
             emptyState.classList.add('hidden');
 
-            const start = (currentPage - 1) * itemsPerPage;
-            const end   = start + itemsPerPage;
-            const batch = filteredProducts.slice(start, end);
+            const batch = filteredProducts.slice(0, visibleCount);
 
             batch.forEach((p, batchIdx) => {
                 const card = document.createElement('div');
                 card.className = p.isPromo
                     ? "product-card card-enter bg-white rounded-2xl border-2 border-amber-300 shadow-md shadow-amber-100 flex flex-col justify-between overflow-hidden group"
                     : "product-card card-enter bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden group";
-                card.style.animationDelay = `${batchIdx * 30}ms`;
 
                 const isOutOfStock = p.stock === 'Habis';
                 const hasWholesale = p.wholesaleMin && p.wholesalePrice && p.wholesaleMin > 1;
@@ -528,36 +515,31 @@
                         </div>
                         ${hasWholesale ? `<button onclick="addToCart(${p.id}, ${p.wholesaleMin})" ${isOutOfStock ? 'disabled' : ''}
                                 class="w-full py-1.5 bg-slate-800 hover:bg-slate-900 text-amber-300 text-[9px] font-bold rounded-lg flex items-center justify-center gap-1.5 transition active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
-                            <i class="fa-solid fa-boxes-packing text-amber-400"></i> +1 Dus Full (${p.wholesaleMin} ${p.unit})
+                            <i class="fa-solid fa-boxes-packing text-amber-400"></i> +1 Dus Full (${p.wholesaleMin}${p.unit})
                         </button>` : ''}
                     </div>
                 `;
                 container.appendChild(card);
             });
 
-            if (end < filteredProducts.length) { currentPage++; createSentinel(); }
-            else { removeSentinel(); }
+            // Atur status Tombol Load More
+            if (filteredProducts.length > visibleCount) {
+                loadMoreBox.classList.remove('hidden');
+                counterEl.textContent = `Menampilkan ${visibleCount} dari ${filteredProducts.length} produk`;
+            } else {
+                if (filteredProducts.length > itemsPerPage) {
+                    loadMoreBox.classList.remove('hidden');
+                    counterEl.textContent = `Semua ${filteredProducts.length} produk telah ditampilkan ✨`;
+                    document.getElementById('loadMoreBtn').classList.add('hidden');
+                } else {
+                    loadMoreBox.classList.add('hidden');
+                }
+            }
         }
 
-        function setupInfiniteScrollObserver() {
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) renderNextBatch(); });
-            }, { rootMargin: '200px' });
-        }
-
-        function createSentinel() {
-            removeSentinel();
-            const sentinel = document.createElement('div');
-            sentinel.id = 'scrollSentinel';
-            sentinel.className = 'w-full py-8 flex items-center justify-center gap-2 text-xs text-slate-400 font-medium';
-            sentinel.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-emerald-500"></i> Memuat lebih banyak produk…`;
-            document.querySelector('main').appendChild(sentinel);
-            if (observer) observer.observe(sentinel);
-        }
-
-        function removeSentinel() {
-            const s = document.getElementById('scrollSentinel');
-            if (s) { if (observer) observer.unobserve(s); s.remove(); }
+        function loadMoreProducts() {
+            visibleCount += itemsPerPage;
+            renderProducts();
         }
 
         function setCategory(cat) {
@@ -570,27 +552,36 @@
                 }
             });
             document.getElementById('activeCategoryTitle').textContent = cat === 'ALL' ? 'Semua Produk' : cat;
+            
+            // Kembalikan tombol jika sebelumnya tersembunyi
+            document.getElementById('loadMoreBtn').classList.remove('hidden');
             filterAndRenderProducts();
         }
 
         function handleSearch() {
             const val = document.getElementById('searchInput').value;
             document.getElementById('clearSearchBtn').classList.toggle('hidden', val.length === 0);
+            document.getElementById('loadMoreBtn').classList.remove('hidden');
             filterAndRenderProducts();
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('loadMoreBtn').classList.remove('hidden');
             filterAndRenderProducts();
         }
 
-        function handleSort() { filterAndRenderProducts(); }
+        function handleSort() { 
+            document.getElementById('loadMoreBtn').classList.remove('hidden');
+            filterAndRenderProducts(); 
+        }
         
         function resetFilters() {
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
             document.getElementById('sortSelect').value = 'default';
+            document.getElementById('loadMoreBtn').classList.remove('hidden');
             setCategory('ALL');
         }
 
