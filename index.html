@@ -155,9 +155,9 @@
                     <i class="fa-solid fa-tags text-amber-500"></i> Katalog Digital Toko ESTI
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                    Belanja <span class="text-gradient">Mudah</span>, Harga <span class="text-gradient">Hemat</span>
+                    Sembako Sampai Jajanan, Tinggal Chat WhatsApp
                 </h2>
-                <p class="text-xs sm:text-sm text-slate-500 mt-2 font-medium">Beli Banyak Lebih Murah · Langsung Order via WhatsApp</p>
+                <p class="text-xs sm:text-sm text-slate-500 mt-2 font-medium">Beli Ecer atau Grosir · Diantar dari Toko Sekitar Rumah</p>
             </div>
 
             <!-- Search -->
@@ -174,18 +174,23 @@
             </div>
 
             <!-- Trust Stats -->
-            <div class="max-w-xl mx-auto mt-5 grid grid-cols-3 gap-2 text-center">
-                <div class="bg-white/80 border border-slate-200 rounded-xl py-2.5 px-3">
-                    <p class="text-sm font-black text-emerald-700">500+</p>
-                    <p class="text-[10px] text-slate-500 font-medium">Jenis Produk</p>
+            <div class="max-w-xl mx-auto mt-5 flex items-center justify-center gap-4 sm:gap-6 text-center py-2">
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-boxes-stacked text-emerald-600 text-xs"></i>
+                    <span id="statProductCount" class="text-xs font-bold text-slate-700">...</span>
+                    <span class="text-[11px] text-slate-400">jenis produk</span>
                 </div>
-                <div class="bg-white/80 border border-slate-200 rounded-xl py-2.5 px-3">
-                    <p class="text-sm font-black text-emerald-700">Grosir</p>
-                    <p class="text-[10px] text-slate-500 font-medium">Harga Tersedia</p>
+                <span class="w-px h-3.5 bg-slate-300"></span>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-box-open text-emerald-600 text-xs"></i>
+                    <span class="text-xs font-bold text-slate-700">Eceran</span>
+                    <span class="text-[11px] text-slate-400">& grosir</span>
                 </div>
-                <div class="bg-white/80 border border-slate-200 rounded-xl py-2.5 px-3">
-                    <p class="text-sm font-black text-emerald-700">WhatsApp</p>
-                    <p class="text-[10px] text-slate-500 font-medium">Order Langsung</p>
+                <span class="w-px h-3.5 bg-slate-300"></span>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp text-emerald-600 text-xs"></i>
+                    <span class="text-xs font-bold text-slate-700">Order</span>
+                    <span class="text-[11px] text-slate-400">langsung chat</span>
                 </div>
             </div>
 
@@ -406,6 +411,9 @@
             const skeleton = document.getElementById('skeletonGrid');
             if (skeleton) skeleton.remove();
 
+            const statEl = document.getElementById('statProductCount');
+            if (statEl) statEl.textContent = rawProducts.length + (rawProducts.length >= 50 ? '+' : '');
+
             filterAndRenderProducts();
             updateCartUI();
             setupInfiniteScrollObserver();
@@ -464,7 +472,9 @@
 
             batch.forEach((p, batchIdx) => {
                 const card = document.createElement('div');
-                card.className = "product-card card-enter bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden group";
+                card.className = p.isPromo
+                    ? "product-card card-enter bg-white rounded-2xl border-2 border-amber-300 shadow-md shadow-amber-100 flex flex-col justify-between overflow-hidden group"
+                    : "product-card card-enter bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden group";
                 card.style.animationDelay = `${batchIdx * 30}ms`;
 
                 const isOutOfStock = p.stock === 'Habis';
