@@ -249,7 +249,7 @@
                 <i class="fa-solid fa-boxes-packing"></i> Tampilkan Produk Lainnya
             </button>
         </div>
-<br>
+        <br>
 
         <!-- Empty State -->
         <div id="emptyState" class="hidden">
@@ -467,6 +467,7 @@
 
                 const isOutOfStock = p.stock === 'Habis';
                 const hasWholesale = p.wholesaleMin && p.wholesalePrice && p.wholesaleMin > 1;
+                const canHalf = p.canHalf === true;
 
                 let mediaDisplay;
                 if (p.image && p.image.trim() !== "") {
@@ -485,6 +486,22 @@
                     ? `<span class="text-[9px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded-md">✕ Habis</span>`
                     : `<span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md">✓ Ada</span>`;
 
+                const actionButtons = canHalf 
+                    ? `<div class="grid grid-cols-2 gap-1">
+                            <button onclick="addToCart(${p.id}, 0.5)" ${isOutOfStock ? 'disabled' : ''}
+                                    class="py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 text-[10px] font-bold rounded-xl flex items-center justify-center transition active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
+                                +½ ${p.unit}
+                            </button>
+                            <button onclick="addToCart(${p.id}, 1)" ${isOutOfStock ? 'disabled' : ''}
+                                    class="py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded-xl flex items-center justify-center transition shadow-sm active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
+                                +1 ${p.unit}
+                            </button>
+                       </div>`
+                    : `<button onclick="addToCart(${p.id}, 1)" ${isOutOfStock ? 'disabled' : ''}
+                               class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded-xl flex items-center justify-center transition shadow-sm active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
+                           +1 ${p.unit}
+                       </button>`;
+
                 card.innerHTML = `
                     ${mediaDisplay}
                     <div class="p-3 flex-1 flex flex-col gap-1">
@@ -494,7 +511,7 @@
                         </div>
                         <h4 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 leading-snug mt-1">${p.name}</h4>
                         <p class="text-[10px] text-slate-400 line-clamp-2 leading-relaxed flex-1">${p.desc || ''}</p>
-                        ${hasWholesale ? `<div class="mt-1 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5 text-[9px] text-amber-800 font-medium flex items-center gap-1"><i class="fa-solid fa-box text-amber-500"></i> Grosir ${p.wholesaleMin}${p.unit}: <span class="font-extrabold">${formatRupiah(p.wholesalePrice)}</span></div>` : ''}
+                        ${hasWholesale ? `<div class="mt-1 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5 text-[9px] text-amber-800 font-medium flex items-center gap-1"><i class="fa-solid fa-box text-amber-500"></i> Grosir ≥${p.wholesaleMin}${p.unit}: <span class="font-extrabold">${formatRupiah(p.wholesalePrice)}/pcs</span></div>` : ''}
                     </div>
                     <div class="px-3 py-3 bg-slate-50 border-t border-slate-100 flex flex-col gap-2">
                         <div class="flex items-end justify-between gap-1">
@@ -502,21 +519,12 @@
                                 <span class="text-[9px] text-slate-400 font-medium block">Harga / ${p.unit || 'Pcs'}</span>
                                 <span class="font-black text-emerald-700 text-sm font-mono leading-none">${formatRupiah(p.price)}</span>
                             </div>
-                            <span class="text-[9px] text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md">½ tersedia</span>
+                            ${canHalf ? `<span class="text-[9px] text-amber-800 bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded-md font-extrabold">½ (${formatRupiah(p.halfPrice || Math.round(p.price/2))})</span>` : ''}
                         </div>
-                        <div class="grid grid-cols-2 gap-1">
-                            <button onclick="addToCart(${p.id}, 0.5)" ${isOutOfStock ? 'disabled' : ''}
-                                    class="py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 text-[10px] font-bold rounded-xl flex items-center justify-center transition active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
-                                +½ ${p.unit}
-                            </button>
-                            <button onclick="addToCart(${p.id}, 1)" ${isOutOfStock ? 'disabled' : ''}
-                                    class="py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded-xl flex items-center justify-center transition shadow-sm active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
-                                +1 ${p.unit}
-                            </button>
-                        </div>
+                        ${actionButtons}
                         ${hasWholesale ? `<button onclick="addToCart(${p.id}, ${p.wholesaleMin})" ${isOutOfStock ? 'disabled' : ''}
                                 class="w-full py-1.5 bg-slate-800 hover:bg-slate-900 text-amber-300 text-[9px] font-bold rounded-lg flex items-center justify-center gap-1.5 transition active:scale-95 ${isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''}">
-                            <i class="fa-solid fa-boxes-packing text-amber-400"></i> +1 Dus Full (${p.wholesaleMin}${p.unit})
+                            <i class="fa-solid fa-boxes-packing text-amber-400"></i> Beli Paket Grosir (${p.wholesaleMin}${p.unit})
                         </button>` : ''}
                     </div>
                 `;
@@ -586,7 +594,24 @@
             setCategory('ALL');
         }
 
-        // KERANJANG BELANJA
+        // KERANJANG BELANJA & KALKULASI HARGA
+        function calculateSubtotal(product, qty) {
+            let total = 0;
+            let appliedLabel = "";
+
+            if (product.wholesaleMin && product.wholesalePrice && qty >= product.wholesaleMin) {
+                total = Math.round(product.wholesalePrice * qty);
+                appliedLabel = "GROSIR";
+            } else if (qty === 0.5 && product.canHalf && product.halfPrice) {
+                total = product.halfPrice;
+                appliedLabel = "SETENGAH";
+            } else {
+                total = Math.round(product.price * qty);
+            }
+
+            return { total, appliedLabel };
+        }
+
         function addToCart(productId, amount = 1) {
             const product = rawProducts.find(p => p.id === productId);
             if (!product || product.stock === 'Habis') return;
@@ -660,16 +685,15 @@
             } else {
                 cart.forEach(item => {
                     const p = item.product;
-                    let unitPrice = p.price;
-                    let isWholesaleApplied = false;
+                    const calc = calculateSubtotal(p, item.qty);
+                    totalPrice += calc.total;
 
-                    if (p.wholesaleMin && p.wholesalePrice && item.qty >= p.wholesaleMin) {
-                        isWholesaleApplied = true;
-                        unitPrice = p.wholesalePrice / p.wholesaleMin;
+                    let badgeHtml = "";
+                    if (calc.appliedLabel === "GROSIR") {
+                        badgeHtml = `<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded border border-amber-200">GROSIR</span>`;
+                    } else if (calc.appliedLabel === "SETENGAH") {
+                        badgeHtml = `<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded border border-amber-200">½ SETENGAH</span>`;
                     }
-
-                    const subtotal = Math.round(unitPrice * item.qty);
-                    totalPrice += subtotal;
 
                     const row = document.createElement('div');
                     row.className = "flex items-center justify-between gap-2.5 p-3 bg-white border border-slate-200 rounded-xl shadow-sm";
@@ -679,8 +703,8 @@
                             <div class="min-w-0 flex-1">
                                 <h5 class="font-bold text-xs text-slate-800 truncate">${p.name}</h5>
                                 <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
-                                    <span class="text-xs font-black text-emerald-700 font-mono">${formatRupiah(subtotal)}</span>
-                                    ${isWholesaleApplied ? `<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded border border-amber-200">GROSIR</span>` : ''}
+                                    <span class="text-xs font-black text-emerald-700 font-mono">${formatRupiah(calc.total)}</span>
+                                    ${badgeHtml}
                                 </div>
                             </div>
                         </div>
@@ -730,19 +754,14 @@
             let grandTotal = 0;
             cart.forEach((item, i) => {
                 const p = item.product;
-                let unitPrice = p.price;
-                let isWholesaleApplied = false;
+                const calc = calculateSubtotal(p, item.qty);
+                grandTotal += calc.total;
 
-                if (p.wholesaleMin && p.wholesalePrice && item.qty >= p.wholesaleMin) {
-                    isWholesaleApplied = true;
-                    unitPrice = p.wholesalePrice / p.wholesaleMin;
-                }
+                let labelTambahan = "";
+                if (calc.appliedLabel === "GROSIR") labelTambahan = " _(Harga Grosir)_";
+                if (calc.appliedLabel === "SETENGAH") labelTambahan = " _(Setengah)_";
 
-                const subtotal = Math.round(unitPrice * item.qty);
-                grandTotal += subtotal;
-
-                const labelGrosir = isWholesaleApplied ? " _(Harga Grosir)_" : "";
-                message += `${i + 1}. *${p.name}* ${item.qty} ${p.unit} = ${formatRupiah(subtotal)}${labelGrosir}\n`;
+                message += `${i + 1}. *${p.name}* ${item.qty} ${p.unit} = ${formatRupiah(calc.total)}${labelTambahan}\n`;
             });
 
             message += `───────────────────\n`;
